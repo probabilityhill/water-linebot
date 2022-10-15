@@ -89,7 +89,7 @@ function execute(event){
     let message;
     if(event.message.type === "text"){
       let text = event.message.text;
-      let status = getStatus(userId);  // ステータスを取得
+      let status = getStatus(USER_ID);  // ステータスを取得
       const ansList = ["きり", "霧"];
       const hiraList = ["きり"];
       const kanList = ["霧"];

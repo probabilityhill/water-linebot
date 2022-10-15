@@ -6,7 +6,27 @@ const sheetId = "1J765HsUk_NcEYsZb7SuJKsRB-eGRTYZVXeDmdBwaeGI";
 const data = SpreadsheetApp.openById(sheetId).getSheets()[0];
 
 function tmp(){
-  // console.log(getLetterTypeMsg(1));
+  const USER_ID = "Ueb6e9beb1bea90d7c0aa4527e5ac709c";
+  let text = "きり";
+  let status = getStatus(USER_ID);  // ステータスを取得
+  const ansList = ["きり", "霧"];
+  const hiraList = ["きり"];
+  const kanList = ["霧"];
+
+  // メッセージ受信
+  if(ansList.includes(text)){
+    if(hiraList.includes(text)){
+      setLetterType(USER_ID, status, 0);
+    }
+    else if(kanList.includes(text)){
+      setLetterType(USER_ID, status, 1);
+    }
+    status = "ink";  // ステータスを更新
+    message = getImgMsg(getImgUrl("w01010"),getImgUrl(status));
+    setStatus(USER_ID, status);
+  }
+
+  console.log();
 }
 
 // ユーザ情報取得
@@ -29,8 +49,21 @@ function getUserName(){
 }
 
 // ステータスを設定
-function setStatus(userId){
+function setStatus(userId, status){
+  const ROW = data.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
+  data.getRange(ROW,6).setValue(status);  // F列目にstatusを記入
+}
+// ステータスを取得
+function getStatus(userId){
+  const ROW = data.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
+  return data.getRange(ROW,6).getValue();  // F列目のstatusを取得  
+}
 
+// 文字種を記録
+function setLetterType(userId, status, type){
+  const ROW = data.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
+  // const STATUS = getStatus(userId);  // ステータスを取得(1~5)
+  data.getRange(ROW,6+status).setValue(type);  // (F+status)列目にtypeを記入
 }
 
 // イベントを受け取る
@@ -55,15 +88,25 @@ function execute(event){
   else if(EVENT_TYPE === "message"){
     let message;
     if(event.message.type === "text"){
-      var text = event.message.text;
+      let text = event.message.text;
+      let status = getStatus(userId);  // ステータスを取得
+      const ansList = ["きり", "霧"];
+      const hiraList = ["きり"];
+      const kanList = ["霧"];
 
       // メッセージ受信
-      switch(text){
-        case "霧":
-        case "きり":
-          message = getImgMsg(getImgUrl("w01010"),getImgUrl("ink"));
-          break;
+      if(ansList.includes(text)){
+        if(hiraList.includes(text)){
+          setLetterType(USER_ID, status, 0);
+        }
+        else if(kanList.includes(text)){
+          setLetterType(USER_ID, status, 1);
+        }
+        status = "ink";  // ステータスを更新
+        message = getImgMsg(getImgUrl("w01010"),getImgUrl(status));
+        setStatus(USER_ID, status);
       }
+
       sendReplyMessage(REPLY_TOKEN, message);
     }
   }
@@ -71,8 +114,8 @@ function execute(event){
 
 // メッセージを送信
 function sendReplyMessage(replyToken, messages){
-  var url = 'https://api.line.me/v2/bot/message/reply';
-  var res = UrlFetchApp.fetch(url, {
+  const URL = 'https://api.line.me/v2/bot/message/reply';
+  const RES = UrlFetchApp.fetch(URL, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer ' + ACCESS_TOKEN,
@@ -83,7 +126,7 @@ function sendReplyMessage(replyToken, messages){
       'messages': messages 
     }),
   });
-  return res;
+  return RES;
 }
 
 

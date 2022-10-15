@@ -6,6 +6,7 @@ const sheetId = "1J765HsUk_NcEYsZb7SuJKsRB-eGRTYZVXeDmdBwaeGI";
 const data = SpreadsheetApp.openById(sheetId).getSheets()[0];
 
 function tmp(){
+  // console.log(getLetterTypeMsg(1));
 }
 
 // ユーザ情報取得
@@ -27,7 +28,6 @@ function getUserName(){
   }
 }
 
-
 // イベントを受け取る
 function doPost(e){
   const events = JSON.parse(e.postData.contents).events;
@@ -38,17 +38,50 @@ function doPost(e){
 
 // イベントを受け取ったら実行する
 function execute(event){
-  const eventType = event.type;
-  const userId = event.source.userId;
+  const EVENT_TYPE = event.type;
+  const USER_ID = event.source.userId;
+  const REPLY_TOKEN = event.replyToken;
 
-  if(eventType === "follow"){
-    const writeRow = data.getLastRow()+1;  // 書く行取得
-    data.getRange(writeRow,1).setValue(userId);  // A列目にユーザID記入
+  if(EVENT_TYPE === "follow"){
+    const WRITE_ROW = data.getLastRow()+1;  // 書く行取得
+    data.getRange(WRITE_ROW,1).setValue(USER_ID);  // A列目にユーザID記入
     data.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
+  }
+  else if(EVENT_TYPE === "message"){
+    let message;
+    if(event.message.type === "text"){
+      var text = event.message.text;
+      switch(text){
+        case "start":
+          message = getLetterTypeMsg(2);
+          break;
+      }
+      sendReplyMessage(REPLY_TOKEN, message);
+    }
   }
 }
 
+// メッセージを送信
+function sendReplyMessage(replyToken, messages){
+  var url = 'https://api.line.me/v2/bot/message/reply';
+  var res = UrlFetchApp.fetch(url, {
+    'headers': {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer ' + ACCESS_TOKEN,
+    },
+    'method': 'post',
+    'payload': JSON.stringify({
+      'replyToken': replyToken,
+      'messages': messages 
+    }),
+  });
+  return res;
+}
 
-
-
-
+  function getFlexMessage(label, content){
+    return [{
+      'type':'flex',
+      'altText':label,
+      'contents':content
+    }];
+  }

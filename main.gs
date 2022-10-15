@@ -11,21 +11,26 @@ function tmp(){
 
 // ユーザ情報取得
 function getUserName(){
-  const lastRow = data.getLastRow();  // 最終行取得
-  for(let i = 2; i <= lastRow; i++){
+  const LAST_ROW = data.getLastRow();  // 最終行取得
+  for(let i = 2; i <= LAST_ROW; i++){
     if(data.getRange(i,2).isBlank()){
-      const userId = data.getRange(i,1).getValue();
-      const url = 'https://api.line.me/v2/bot/profile/' + userId;
-      const userProfile = UrlFetchApp.fetch(url,{
+      const USER_ID = data.getRange(i,1).getValue();
+      const URL = 'https://api.line.me/v2/bot/profile/' + USER_ID;
+      const USER_PROFILE = UrlFetchApp.fetch(URL,{
         'headers': {
           'Authorization' :  'Bearer ' + ACCESS_TOKEN,
         }
       });      
-      data.getRange(i,2).setValue(JSON.parse(userProfile).displayName);
-      data.getRange(i,3).setValue(JSON.parse(userProfile).statusMessage);
-      data.getRange(i,4).setValue(JSON.parse(userProfile).pictureUrl);
+      data.getRange(i,2).setValue(JSON.parse(USER_PROFILE).displayName);
+      data.getRange(i,3).setValue(JSON.parse(USER_PROFILE).statusMessage);
+      data.getRange(i,4).setValue(JSON.parse(USER_PROFILE).pictureUrl);
     }
   }
+}
+
+// ステータスを設定
+function setStatus(userId){
+
 }
 
 // イベントを受け取る
@@ -51,9 +56,12 @@ function execute(event){
     let message;
     if(event.message.type === "text"){
       var text = event.message.text;
+
+      // メッセージ受信
       switch(text){
-        case "start":
-          message = getLetterTypeMsg(2);
+        case "霧":
+        case "きり":
+          message = getImgMsg(getImgUrl("w01010"),getImgUrl("ink"));
           break;
       }
       sendReplyMessage(REPLY_TOKEN, message);
@@ -78,10 +86,4 @@ function sendReplyMessage(replyToken, messages){
   return res;
 }
 
-  function getFlexMessage(label, content){
-    return [{
-      'type':'flex',
-      'altText':label,
-      'contents':content
-    }];
-  }
+

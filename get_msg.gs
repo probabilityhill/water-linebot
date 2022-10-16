@@ -12,13 +12,16 @@ function getReplyMsg(userId, text){
   else if(text == "hint"){
     return [{
       "type":"text",
-      "text":hintList[status],
+      "text":HINT_LIST[status],
       "quickReply": QUICK_REPLY
     }];
   }
+  else if(text == "rule"){
+    return getFlexMsg("rule", RULE);
+  }
   else if(status >= 1 && status <= 3){  // status1~3の場合
-    const isHira = (hiraList[status-1] == text);
-    const isKan = (kanList[status-1] == text);
+    const isHira = (HIRA_LIST[status-1] == text);
+    const isKan = (KAN_LIST[status-1] == text);
 
     if(isHira || isKan){
       if(isHira){  // ひらがなの場合
@@ -50,14 +53,30 @@ function getReplyMsg(userId, text){
   }];
 }
 
-function getFlexMsg(label, content){
+// Flex Messageを取得
+function getFlexMsg(label, content, url="", hasImg=false){
+  if(hasImg){
+    return [{
+      "type": "image",
+      "originalContentUrl": url,
+      "previewImageUrl": url
+    },
+    {
+      'type':'flex',
+      'altText':label,
+      'contents':content,
+      "quickReply": QUICK_REPLY
+    }];
+  }
   return [{
     'type':'flex',
     'altText':label,
-    'contents':content
+    'contents':content,
+    "quickReply": QUICK_REPLY
   }];
 }
 
+// 画像メッセージを取得
 function getImgMsg(url, second=null, hasText=false){
   if(hasText){  // テキストがある場合
     return [{
@@ -92,34 +111,3 @@ function getImgMsg(url, second=null, hasText=false){
     "quickReply": QUICK_REPLY
   }];
 }
-
-function getLetterTypeMsg(type) {
-  let str;
-  if(type == 1) {
-    str = "漢字";
-  }
-  else {
-    str = "漢字 or ひらがな";
-  }
-  let content = {
-    "type": "bubble",
-    "size": "nano",
-    "body": {
-      "type": "box",
-      "layout": "vertical",
-      "contents": [
-        {
-          "type": "text",
-          "contents": [],
-          "size": "xxs",
-          "weight": "bold",
-          "color": "#404040",
-          "text": str,
-          "align": "center"
-        }
-      ],
-      "paddingAll": "sm"
-    }
-  };
-  return getFlexMsg(str, content)
-};

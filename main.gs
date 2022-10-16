@@ -31,11 +31,7 @@ function execute(event){
     data.getRange(ROW,1).setValue(USER_ID);  // A列目にユーザID記入
     setStatus(USER_ID, 0);  // ステータス0を設定
     data.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
-    const MSG = [{
-      "type":"text",
-      "text":"rule",
-      "quickReply": QUICK_REPLY
-    }];
+    const MSG = getFlexMsg("rule", RULE, getImgUrl("w0"), hasImg=true);
     sendReplyMessage(REPLY_TOKEN, MSG);
   }
   else if(EVENT_TYPE === "message"){

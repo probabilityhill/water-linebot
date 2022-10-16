@@ -59,12 +59,12 @@ function execute(event){
       const kanList = ["赤身","線香","快晴","四","霧"];
 
       // 応答メッセージ
-      if(text === "start"){
+      if(text == "start"){
         setStatus(USER_ID, 1);  // F列目にステータス1を設定
         message = getImgMsg(getImgUrl("q1"));
       }
-      else if(text === "water"){
-        message = getImgMsg(getImgUrl("q"+status));
+      else if(text == "water"){
+        message = getImgMsg(getImgUrl(getFilename(USER_ID, status)));
       }
       else if(ansList.includes(text)){  // 正解の場合
         if(hiraList.includes(text) && hiraList[status-1] === text){  // ひらがなの場合
@@ -76,7 +76,7 @@ function execute(event){
         setStatus(USER_ID, status+1);  // ステータスを更新
         message = getImgMsg(getImgUrl("q"+status));
       }
-      else if(status == 6 && text === "ink"){
+      else if(status == 6 && text == "ink"){
         message = getImgMsg(getImgUrl(getFilename(USER_ID, 6)),getImgUrl(status));
       }
       else {

@@ -1,6 +1,6 @@
 const HIRA_LIST = ["あかみ","せんこう","かいせい"];
 const KAN_LIST = ["赤身","線香","快晴"];
-const HINT_LIST = ["None.", "ミ","🚬","🌦️","answer: ○○○○○○", "None."];
+const HINT_LIST = ["None.", "🍳","🚬","🌦️","answer: ○○○○○○", "None."];
 const CLEAR_MSG = {
   "type": "bubble",
   "size": "kilo",
@@ -41,7 +41,7 @@ const CLEAR_MSG = {
         "action": {
           "type": "uri",
           "label": "TWEET",
-          "uri": "https://linecorp.com"
+          "uri": "https://twitter.com/intent/tweet?text=LINE%E8%AC%8E%E3%80%8Ewater%E3%80%8Fclear!%0A%0Aplay%20%E2%86%92%20https%3A%2F%2Flin.ee%2FPMyXCdw%0A%0A%23water%E8%AC%8E%20%23LINE%E8%AC%8E%20%40TM_TryAngle"
         },
         "height": "sm",
         "color": "#00acee",

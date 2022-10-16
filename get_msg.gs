@@ -7,7 +7,14 @@ function getReplyMsg(userId, text){
     return getImgMsg(getImgUrl("q1"));
   }
   else if(text == "water"){
-    return getImgMsg(getImgUrl(getFilename(userId, status)));
+    return getImgMsg(getImgUrl(getFilename(userId, Math.min(status, 4))));
+  }
+  else if(text == "hint"){
+    return [{
+      "type":"text",
+      "text":hintList[status],
+      "quickReply": QUICK_REPLY
+    }];
   }
   else if(status >= 1 && status <= 3){  // status1~3の場合
     const isHira = (hiraList[status-1] == text);

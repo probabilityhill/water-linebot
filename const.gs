@@ -1,5 +1,6 @@
 const hiraList = ["あかみ","せんこう","かいせい"];
 const kanList = ["赤身","線香","快晴"];
+const hintList = ["None.", "ミ","🚬","🌦️","answer: ○○○○○○", "None."];
 
 const QUICK_REPLY = {
   "items": [

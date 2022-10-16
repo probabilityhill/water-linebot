@@ -7,7 +7,7 @@ const data = SpreadsheetApp.openById(sheetId).getSheets()[0];
 
 function tmp(){
   const USER_ID = "test";
-  let text = "melted";
+  let text = "hint";
   console.log(getReplyMsg(USER_ID, text));
 }
 
@@ -29,7 +29,14 @@ function execute(event){
   if(EVENT_TYPE === "follow"){
     const ROW = data.getLastRow()+1;  // 書く行取得
     data.getRange(ROW,1).setValue(USER_ID);  // A列目にユーザID記入
+    setStatus(USER_ID, 0);  // ステータス0を設定
     data.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
+    const MSG = [{
+      "type":"text",
+      "text":"rule",
+      "quickReply": QUICK_REPLY
+    }];
+    sendReplyMessage(REPLY_TOKEN, MSG);
   }
   else if(EVENT_TYPE === "message"){
     if(event.message.type === "text"){

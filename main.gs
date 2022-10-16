@@ -7,7 +7,7 @@ const data = SpreadsheetApp.openById(sheetId).getSheets()[0];
 
 function tmp(){
   const USER_ID = "test";
-  let text = "start";
+  let text = "melted";
   console.log(getReplyMsg(USER_ID, text));
 }
 

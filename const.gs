@@ -1,6 +1,5 @@
-const ansList = ["あかみ","せんこう","かいせい","し","きり","赤身","線香","快晴","四","霧"];
-const hiraList = ["あかみ","せんこう","かいせい","し","きり"];
-const kanList = ["赤身","線香","快晴","四","霧"];
+const hiraList = ["あかみ","せんこう","かいせい"];
+const kanList = ["赤身","線香","快晴"];
 
 const QUICK_REPLY = {
   "items": [

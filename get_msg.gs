@@ -9,7 +9,7 @@ function getReplyMsg(userId, text){
   else if(text == "water"){
     return getImgMsg(getImgUrl(getFilename(userId, status)));
   }
-  else if(status >= 1 && status <= 5){  // status1~5の場合
+  else if(status >= 1 && status <= 3){  // status1~3の場合
     const isHira = (hiraList[status-1] == text);
     const isKan = (kanList[status-1] == text);
 
@@ -22,22 +22,18 @@ function getReplyMsg(userId, text){
       }      
       status += 1
       setStatus(userId, status);  // ステータスを更新
-      if(status === 6){
-        return getImgMsg(getImgUrl(getFilename(userId, 6)),getImgUrl(6));
+      if(status === 4){
+        // waterと最終問題の画像を返す
+        return getImgMsg(getImgUrl(getFilename(userId, 4)),getImgUrl("q4"));
       }
       return getImgMsg(getImgUrl("q"+status));      
     }
   }
-  else if(status === 6 || status === 7){  // status6~7の場合
-    setLetterType(userId, status, "#");  // 到達を記録
+  else if(status === 4 && text == "melted"){  // 最終問題正解の場合
+    setLetterType(userId, 4, "#");  // 到達を記録
     status += 1
     setStatus(userId, status);  // ステータスを更新
-    if(status === 6){
-      return getImgMsg(getImgUrl("q6"));
-    }
-    else{
-      return getImgMsg(getImgUrl("clear"), "clearメッセージ");
-    }
+    return getImgMsg(getImgUrl("clear"), "clearメッセージ", hasText=true);
   }
 
   return [{

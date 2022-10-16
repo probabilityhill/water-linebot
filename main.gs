@@ -40,7 +40,7 @@ function execute(event){
   }
   else if(EVENT_TYPE === "message"){
     if(event.message.type === "text"){
-      let text = event.message.text;
+      let text = event.message.text.trim();  // 先頭・末尾の空白削除
       sendReplyMessage(REPLY_TOKEN, getReplyMsg(USER_ID, text));
     }
   }

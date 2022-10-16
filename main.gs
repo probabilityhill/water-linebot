@@ -29,42 +29,6 @@ function tmp(){
   console.log();
 }
 
-// ユーザ情報取得
-function getUserName(){
-  const LAST_ROW = data.getLastRow();  // 最終行取得
-  for(let i = 2; i <= LAST_ROW; i++){
-    if(data.getRange(i,2).isBlank()){
-      const USER_ID = data.getRange(i,1).getValue();
-      const URL = 'https://api.line.me/v2/bot/profile/' + USER_ID;
-      const USER_PROFILE = UrlFetchApp.fetch(URL,{
-        'headers': {
-          'Authorization' :  'Bearer ' + ACCESS_TOKEN,
-        }
-      });      
-      data.getRange(i,2).setValue(JSON.parse(USER_PROFILE).displayName);
-      data.getRange(i,3).setValue(JSON.parse(USER_PROFILE).statusMessage);
-      data.getRange(i,4).setValue(JSON.parse(USER_PROFILE).pictureUrl);
-    }
-  }
-}
-
-// ステータスを設定
-function setStatus(userId, status){
-  const ROW = data.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
-  data.getRange(ROW,6).setValue(status);  // F列目にstatusを記入
-}
-// ステータスを取得
-function getStatus(userId){
-  const ROW = data.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
-  return data.getRange(ROW,6).getValue();  // F列目のstatusを取得  
-}
-
-// 文字種を記録
-function setLetterType(userId, status, type){
-  const ROW = data.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
-  // const STATUS = getStatus(userId);  // ステータスを取得(1~5)
-  data.getRange(ROW,6+status).setValue(type);  // (F+status)列目にtypeを記入
-}
 
 // イベントを受け取る
 function doPost(e){
@@ -81,8 +45,8 @@ function execute(event){
   const REPLY_TOKEN = event.replyToken;
 
   if(EVENT_TYPE === "follow"){
-    const WRITE_ROW = data.getLastRow()+1;  // 書く行取得
-    data.getRange(WRITE_ROW,1).setValue(USER_ID);  // A列目にユーザID記入
+    const ROW = data.getLastRow()+1;  // 書く行取得
+    data.getRange(ROW,1).setValue(USER_ID);  // A列目にユーザID記入
     data.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
   }
   else if(EVENT_TYPE === "message"){
@@ -95,19 +59,25 @@ function execute(event){
       const kanList = ["赤身","線香","快晴","四","霧"];
 
       // 応答メッセージ
-      if(ansList.includes(text)){  // 正解の場合
-        
-        if(hiraList.includes(text)){  // ひらがなの場合
+      if(text === "start"){
+        setStatus(USER_ID, 0);  // F列目にステータス0を設定
+      }
+      else if(ansList.includes(text)){  // 正解の場合
+        if(hiraList.includes(text) && hiraList[status-1] === text){  // ひらがなの場合
           setLetterType(USER_ID, status, 0);
         }
-        else if(kanList.includes(text)){  // 漢字の場合
+        else if(kanList.includes(text) && kanList[status-1] === text){  // 漢字の場合
           setLetterType(USER_ID, status, 1);
         }
-        status = "ink";  // ステータスを更新
-        message = getImgMsg(getImgUrl("w01010"),getImgUrl(status));
+        status += 1;  // ステータスを更新
+        message = getImgMsg(getImgUrl("q"+status));
         setStatus(USER_ID, status);
       }
-      else {
+      else if(status == 6 && text === "ink"){
+        message = getImgMsg(getImgUrl(getFilename(USER_ID, 6)),getImgUrl(status));
+      }
+      
+      if(!message) {
         message = {
           "type":"text",
           "text":"...",

@@ -43,7 +43,7 @@ function getReplyMsg(userId, text){
     setLetterType(userId, 4, "#");  // 到達を記録
     status += 1
     setStatus(userId, status);  // ステータスを更新
-    return getImgMsg(getImgUrl("clear"), "clearメッセージ", hasText=true);
+    return getFlexMsg("Congratulations!", CLEAR_MSG, getImgUrl("clear"), hasText=true);
   }
 
   return [{

@@ -1,6 +1,61 @@
 const HIRA_LIST = ["あかみ","せんこう","かいせい"];
 const KAN_LIST = ["赤身","線香","快晴"];
 const HINT_LIST = ["None.", "ミ","🚬","🌦️","answer: ○○○○○○", "None."];
+const CLEAR_MSG = {
+  "type": "bubble",
+  "size": "kilo",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Congratulations!",
+        "weight": "bold",
+        "size": "lg",
+        "color": "#404040"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "lg",
+        "contents": [
+          {
+            "type": "text",
+            "text": "クリアツイートは以下のボタンからお願いいたします。（エクストラ要素はありません。）",
+            "color": "#404040",
+            "wrap": true,
+            "size": "sm"
+          }
+        ]
+      }
+    ],
+    "paddingBottom": "none"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "TWEET",
+          "uri": "https://linecorp.com"
+        },
+        "height": "sm",
+        "color": "#00acee",
+        "style": "primary"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [],
+        "margin": "sm"
+      }
+    ]
+  }
+};
 const RULE = {
   "type": "bubble",
   "body": {

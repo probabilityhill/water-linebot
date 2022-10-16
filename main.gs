@@ -90,21 +90,29 @@ function execute(event){
     if(event.message.type === "text"){
       let text = event.message.text;
       let status = getStatus(USER_ID);  // ステータスを取得
-      const ansList = ["きり", "霧"];
-      const hiraList = ["きり"];
-      const kanList = ["霧"];
+      const ansList = ["あかみ","せんこう","かいせい","し","きり","赤身","線香","快晴","四","霧"];
+      const hiraList = ["あかみ","せんこう","かいせい","し","きり"];
+      const kanList = ["赤身","線香","快晴","四","霧"];
 
-      // メッセージ受信
-      if(ansList.includes(text)){
-        if(hiraList.includes(text)){
+      // 応答メッセージ
+      if(ansList.includes(text)){  // 正解の場合
+        
+        if(hiraList.includes(text)){  // ひらがなの場合
           setLetterType(USER_ID, status, 0);
         }
-        else if(kanList.includes(text)){
+        else if(kanList.includes(text)){  // 漢字の場合
           setLetterType(USER_ID, status, 1);
         }
         status = "ink";  // ステータスを更新
         message = getImgMsg(getImgUrl("w01010"),getImgUrl(status));
         setStatus(USER_ID, status);
+      }
+      else {
+        message = {
+          "type":"text",
+          "text":"...",
+          "quickReply": QUICK_REPLY
+        }
       }
 
       sendReplyMessage(REPLY_TOKEN, message);

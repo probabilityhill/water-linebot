@@ -7,10 +7,8 @@ const data = SpreadsheetApp.openById(sheetId).getSheets()[0];
 
 function tmp(){
   const USER_ID = "test";
-  let text = "water";
-  let status = getStatus(USER_ID);  // ステータスを取得
-
-  console.log(getReplyMsg(USER_ID, status, text));
+  let text = "start";
+  console.log(getReplyMsg(USER_ID, text));
 }
 
 

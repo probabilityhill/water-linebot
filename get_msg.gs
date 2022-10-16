@@ -55,7 +55,7 @@ function getFlexMsg(label, content){
   }];
 }
 
-function getImgMsg(url, second=null, hasText=False){
+function getImgMsg(url, second=null, hasText=false){
   if(hasText){  // テキストがある場合
     return [{
       "type": "image",

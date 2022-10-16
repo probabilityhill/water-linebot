@@ -4,6 +4,14 @@ const QUICK_REPLY = {
       "type": "action",
       "action": {
         "type": "message",
+        "label": "start",
+        "text": "start"
+      }
+    },
+    {
+      "type": "action",
+      "action": {
+        "type": "message",
         "label": "water",
         "text": "water"
       }

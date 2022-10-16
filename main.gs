@@ -60,18 +60,21 @@ function execute(event){
 
       // 応答メッセージ
       if(text === "start"){
-        setStatus(USER_ID, 0);  // F列目にステータス0を設定
+        setStatus(USER_ID, 1);  // F列目にステータス1を設定
+        return;
       }
-      else if(ansList.includes(text)){  // 正解の場合
+      else if(text === "water"){
+        message = getImgMsg(getImgUrl("q"+status));
+      }
+
+      if(ansList.includes(text)){  // 正解の場合
         if(hiraList.includes(text) && hiraList[status-1] === text){  // ひらがなの場合
           setLetterType(USER_ID, status, 0);
         }
         else if(kanList.includes(text) && kanList[status-1] === text){  // 漢字の場合
           setLetterType(USER_ID, status, 1);
         }
-        status += 1;  // ステータスを更新
-        message = getImgMsg(getImgUrl("q"+status));
-        setStatus(USER_ID, status);
+        setStatus(USER_ID, status+1);  // ステータスを更新
       }
       else if(status == 6 && text === "ink"){
         message = getImgMsg(getImgUrl(getFilename(USER_ID, 6)),getImgUrl(status));

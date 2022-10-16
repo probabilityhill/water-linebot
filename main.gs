@@ -36,8 +36,7 @@ function execute(event){
   else if(EVENT_TYPE === "message"){
     if(event.message.type === "text"){
       let text = event.message.text;
-      let status = getStatus(USER_ID);  // ステータスを取得
-      sendReplyMessage(REPLY_TOKEN, getReplyMsg(USER_ID, status, text));
+      sendReplyMessage(REPLY_TOKEN, getReplyMsg(USER_ID, text));
     }
   }
 }

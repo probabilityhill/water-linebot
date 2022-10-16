@@ -1,9 +1,7 @@
 // 応答メッセージを取得
-function getReplyMsg(userId, status, text){
-  const ansList = ["あかみ","せんこう","かいせい","し","きり","赤身","線香","快晴","四","霧"];
-  const hiraList = ["あかみ","せんこう","かいせい","し","きり"];
-  const kanList = ["赤身","線香","快晴","四","霧"];
-  
+function getReplyMsg(userId, text){
+  let status = getStatus(USER_ID);  // ステータスを取得
+
   if(text == "start"){
     setStatus(userId, 1);  // F列目にステータス1を設定
     return getImgMsg(getImgUrl("q1"));

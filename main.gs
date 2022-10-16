@@ -61,13 +61,12 @@ function execute(event){
       // 応答メッセージ
       if(text === "start"){
         setStatus(USER_ID, 1);  // F列目にステータス1を設定
-        return;
+        message = getImgMsg(getImgUrl("q1"));
       }
       else if(text === "water"){
         message = getImgMsg(getImgUrl("q"+status));
       }
-
-      if(ansList.includes(text)){  // 正解の場合
+      else if(ansList.includes(text)){  // 正解の場合
         if(hiraList.includes(text) && hiraList[status-1] === text){  // ひらがなの場合
           setLetterType(USER_ID, status, 0);
         }
@@ -75,17 +74,17 @@ function execute(event){
           setLetterType(USER_ID, status, 1);
         }
         setStatus(USER_ID, status+1);  // ステータスを更新
+        message = getImgMsg(getImgUrl("q"+status));
       }
       else if(status == 6 && text === "ink"){
         message = getImgMsg(getImgUrl(getFilename(USER_ID, 6)),getImgUrl(status));
       }
-      
-      if(!message) {
-        message = {
+      else {
+        message = [{
           "type":"text",
           "text":"...",
           "quickReply": QUICK_REPLY
-        }
+        }];
       }
 
       sendReplyMessage(REPLY_TOKEN, message);

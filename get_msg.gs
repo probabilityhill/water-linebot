@@ -11,7 +11,8 @@ function getImgMsg(url, url2=""){
     return [{
       "type": "image",
       "originalContentUrl": url,
-      "previewImageUrl": url
+      "previewImageUrl": url,
+      "quickReply": QUICK_REPLY
     }];
   }
   else{
@@ -23,7 +24,8 @@ function getImgMsg(url, url2=""){
     {
       "type": "image",
       "originalContentUrl": url2,
-      "previewImageUrl": url2
+      "previewImageUrl": url2,
+      "quickReply": QUICK_REPLY
     }];
   }
 }

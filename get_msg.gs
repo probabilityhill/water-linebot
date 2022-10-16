@@ -9,27 +9,31 @@ function getReplyMsg(userId, text){
   else if(text == "water"){
     return getImgMsg(getImgUrl(getFilename(userId, status)));
   }
-  else if(ansList.includes(text)){  // 正解の場合
-    if(hiraList.includes(text) && hiraList[status-1] == text){  // ひらがなの場合
-      setLetterType(userId, status, 0);
+  else if(status >= 1 && status <= 5){  // status1~5の場合
+    const isHira = (hiraList[status-1] == text);
+    const isKan = (kanList[status-1] == text);
+
+    if(isHira || isKan){
+      if(isHira){  // ひらがなの場合
+        setLetterType(userId, status, 0);
+      }
+      else {  // 漢字の場合
+        setLetterType(userId, status, 1);
+      }      
+      status += 1
+      setStatus(userId, status);  // ステータスを更新
+      return getImgMsg(getImgUrl("q"+status));      
     }
-    else if(kanList.includes(text) && kanList[status-1] == text){  // 漢字の場合
-      setLetterType(userId, status, 1);
-    }
-    status += 1
-    setStatus(userId, status);  // ステータスを更新
-    return getImgMsg(getImgUrl("q"+status));
   }
   else if(status == 6 && text == "ink"){
     return getImgMsg(getImgUrl(getFilename(userId, 6)),getImgUrl(status));
   }
-  else {
-    return [{
-      "type":"text",
-      "text":"...",
-      "quickReply": QUICK_REPLY
-    }];
-  }  
+
+  return [{
+    "type":"text",
+    "text":"...",
+    "quickReply": QUICK_REPLY
+  }];
 }
 
 function getFlexMsg(label, content){

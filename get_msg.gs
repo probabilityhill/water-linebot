@@ -1,3 +1,38 @@
+// 応答メッセージを取得
+function getReplyMsg(userId, status, text){
+  const ansList = ["あかみ","せんこう","かいせい","し","きり","赤身","線香","快晴","四","霧"];
+  const hiraList = ["あかみ","せんこう","かいせい","し","きり"];
+  const kanList = ["赤身","線香","快晴","四","霧"];
+  
+  if(text == "start"){
+    setStatus(userId, 1);  // F列目にステータス1を設定
+    return getImgMsg(getImgUrl("q1"));
+  }
+  else if(text == "water"){
+    return getImgMsg(getImgUrl(getFilename(userId, status)));
+  }
+  else if(ansList.includes(text)){  // 正解の場合
+    if(hiraList.includes(text) && hiraList[status-1] === text){  // ひらがなの場合
+      setLetterType(userId, status, 0);
+    }
+    else if(kanList.includes(text) && kanList[status-1] === text){  // 漢字の場合
+      setLetterType(userId, status, 1);
+    }
+    setStatus(userId, status+1);  // ステータスを更新
+    return getImgMsg(getImgUrl("q"+status));
+  }
+  else if(status == 6 && text == "ink"){
+    return getImgMsg(getImgUrl(getFilename(userId, 6)),getImgUrl(status));
+  }
+  else {
+    return [{
+      "type":"text",
+      "text":"...",
+      "quickReply": QUICK_REPLY
+    }];
+  }  
+}
+
 function getFlexMsg(label, content){
   return [{
     'type':'flex',

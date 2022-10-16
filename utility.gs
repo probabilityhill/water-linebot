@@ -6,7 +6,7 @@ function getImgUrl(filename) {
 // 画像ファイル名を取得
 function getFilename(userId, status){
   let str = "";
-  for(let n = 1; n <= status; i++){
+  for(let n = 1; n <= status; n++){
     str += String(getLetterType(userId, n));
   }
   return "w" + str;

@@ -22,11 +22,22 @@ function getReplyMsg(userId, text){
       }      
       status += 1
       setStatus(userId, status);  // ステータスを更新
+      if(status === 6){
+        return getImgMsg(getImgUrl(getFilename(userId, 6)),getImgUrl(6));
+      }
       return getImgMsg(getImgUrl("q"+status));      
     }
   }
-  else if(status == 6 && text == "ink"){
-    return getImgMsg(getImgUrl(getFilename(userId, 6)),getImgUrl(status));
+  else if(status === 6 || status === 7){  // status6~7の場合
+    setLetterType(userId, status, "#");  // 到達を記録
+    status += 1
+    setStatus(userId, status);  // ステータスを更新
+    if(status === 6){
+      return getImgMsg(getImgUrl("q6"));
+    }
+    else{
+      return getImgMsg(getImgUrl("clear"), "clearメッセージ");
+    }
   }
 
   return [{
@@ -44,16 +55,20 @@ function getFlexMsg(label, content){
   }];
 }
 
-function getImgMsg(url, url2=""){
-  if(url2 === ""){
+function getImgMsg(url, second=null, hasText=False){
+  if(hasText){  // テキストがある場合
     return [{
       "type": "image",
       "originalContentUrl": url,
-      "previewImageUrl": url,
+      "previewImageUrl": url
+    },
+    {
+      "type":"text",
+      "text":second,
       "quickReply": QUICK_REPLY
     }];
   }
-  else{
+  if(second){  // 2つ目の画像がある場合
     return [{
       "type": "image",
       "originalContentUrl": url,
@@ -61,11 +76,18 @@ function getImgMsg(url, url2=""){
     },
     {
       "type": "image",
-      "originalContentUrl": url2,
-      "previewImageUrl": url2,
+      "originalContentUrl": second,
+      "previewImageUrl": second,
       "quickReply": QUICK_REPLY
     }];
   }
+
+  return [{
+    "type": "image",
+    "originalContentUrl": url,
+    "previewImageUrl": url,
+    "quickReply": QUICK_REPLY
+  }];
 }
 
 function getLetterTypeMsg(type) {

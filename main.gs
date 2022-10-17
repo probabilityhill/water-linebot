@@ -1,10 +1,3 @@
-const scriptProperties = PropertiesService.getScriptProperties();
-const ACCESS_TOKEN = scriptProperties.getProperty('ACCESS_TOKEN');
-
-// ユーザ情報を書きこむシートを取得
-const sheetId = "1J765HsUk_NcEYsZb7SuJKsRB-eGRTYZVXeDmdBwaeGI";
-const data = SpreadsheetApp.openById(sheetId).getSheets()[0];
-
 function tmp(){
   const USER_ID = "test";
   let text = "hint";
@@ -27,10 +20,10 @@ function execute(event){
   const REPLY_TOKEN = event.replyToken;
 
   if(EVENT_TYPE === "follow"){
-    const ROW = data.getLastRow()+1;  // 書く行取得
-    data.getRange(ROW,1).setValue(USER_ID);  // A列目にユーザID記入
+    const ROW = SHEET.getLastRow()+1;  // 書く行取得
+    SHEET.getRange(ROW,1).setValue(USER_ID);  // A列目にユーザID記入
     setStatus(USER_ID, 0);  // ステータス0を設定
-    data.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
+    SHEET.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
     const MSG = getFlexMsg("rule", RULE, getImgUrl("w0"), hasImg=true);
     sendReplyMessage(REPLY_TOKEN, MSG);
   }

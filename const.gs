@@ -1,6 +1,14 @@
+const SCRIPT_PROPERTIES = PropertiesService.getScriptProperties();
+const ACCESS_TOKEN = SCRIPT_PROPERTIES.getProperty('ACCESS_TOKEN');
+
+// ユーザ情報を書きこむシート
+const SHEET_ID = "1J765HsUk_NcEYsZb7SuJKsRB-eGRTYZVXeDmdBwaeGI";
+const SHEET = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
+
 const HIRA_LIST = ["あかみ","せんこう","かいせい"];
 const KAN_LIST = ["赤身","線香","快晴"];
 const HINT_LIST = ["None.", "🍳","🚬","🌦️","answer: ○○○○○○", "None."];
+
 const CLEAR_MSG = {
   "type": "bubble",
   "size": "kilo",

@@ -4,16 +4,16 @@ function getReplyMsg(userId, text){
 
   if(text == "start"){
     setStatus(userId, 1);  // F列目にステータス1を設定
-    return getImgMsg(getImgUrl("q1"));
+    return [getImgMsg(getImgUrl("q1"))];
   }
   else if(text == "water"){
-    return getImgMsg(getImgUrl(getFilename(userId, Math.min(status, 4))));
+    return [getImgMsg(getImgUrl(getFilename(userId, Math.min(status, 4))))];
   }
   else if(text == "hint"){
-    return getFlexMsg("hint", HINT_LIST[status]);
+    return [getFlexMsg("hint", HINT_LIST[status])];
   }
   else if(text == "rule"){
-    return getFlexMsg("rule", RULE);
+    return [getFlexMsg("rule", RULE)];
   }
   else if(status >= 1 && status <= 3){  // status1~3の場合
     const isHira = (HIRA_LIST[status-1] == text);
@@ -30,80 +30,46 @@ function getReplyMsg(userId, text){
       setStatus(userId, status);  // ステータスを更新
       if(status === 4){
         // waterと最終問題の画像を返す
-        return getImgMsg(getImgUrl(getFilename(userId, 4)),getImgUrl("q4"));
+        return [getImgMsg(getImgUrl(getFilename(userId, 4))), getImgMsg(getImgUrl("q4"))];
       }
-      return getImgMsg(getImgUrl("q"+status));      
+      return [getImgMsg(getImgUrl("q"+status))];      
     }
   }
   else if(status === 4 && text == "melted"){  // 最終問題正解の場合
     setLetterType(userId, 4, "#");  // 到達を記録
     status += 1
     setStatus(userId, status);  // ステータスを更新
-    return getFlexMsg("Congratulations!", CLEAR_MSG, getImgUrl("clear"), hasText=true);
+    return [getTextMsg("melted…溶けた…解けた…!"), getFlexMsg("Congratulations!", CLEAR_MSG), getImgMsg(getImgUrl("clear"))];
   }
 
-  return [{
+  return [getTextMsg("...")];
+}
+
+// テキストメッセージを取得
+function getTextMsg(text){
+  return {
     "type":"text",
-    "text":"...",
+    "text":text,
     "quickReply": QUICK_REPLY
-  }];
+  };
 }
 
 // Flex Messageを取得
-function getFlexMsg(label, content, url="", hasImg=false){
-  if(hasImg){
-    return [{
-      "type": "image",
-      "originalContentUrl": url,
-      "previewImageUrl": url
-    },
-    {
-      'type':'flex',
-      'altText':label,
-      'contents':content,
-      "quickReply": QUICK_REPLY
-    }];
-  }
-  return [{
+function getFlexMsg(label, content){
+  return {
     'type':'flex',
     'altText':label,
     'contents':content,
     "quickReply": QUICK_REPLY
-  }];
+  };
 }
 
 // 画像メッセージを取得
-function getImgMsg(url, second=null, hasText=false){
-  if(hasText){  // テキストがある場合
-    return [{
-      "type": "image",
-      "originalContentUrl": url,
-      "previewImageUrl": url
-    },
-    {
-      "type":"text",
-      "text":second,
-      "quickReply": QUICK_REPLY
-    }];
-  }
-  if(second){  // 2つ目の画像がある場合
-    return [{
-      "type": "image",
-      "originalContentUrl": url,
-      "previewImageUrl": url
-    },
-    {
-      "type": "image",
-      "originalContentUrl": second,
-      "previewImageUrl": second,
-      "quickReply": QUICK_REPLY
-    }];
-  }
-
-  return [{
+function getImgMsg(url){
+  return {
     "type": "image",
     "originalContentUrl": url,
     "previewImageUrl": url,
     "quickReply": QUICK_REPLY
-  }];
+  };
 }

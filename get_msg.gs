@@ -10,11 +10,7 @@ function getReplyMsg(userId, text){
     return getImgMsg(getImgUrl(getFilename(userId, Math.min(status, 4))));
   }
   else if(text == "hint"){
-    return [{
-      "type":"text",
-      "text":HINT_LIST[status],
-      "quickReply": QUICK_REPLY
-    }];
+    return getFlexMsg("hint", HINT_LIST[status]);
   }
   else if(text == "rule"){
     return getFlexMsg("rule", RULE);

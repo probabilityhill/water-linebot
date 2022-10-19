@@ -7,7 +7,183 @@ const SHEET = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
 
 const HIRA_LIST = ["あかみ","せんこう","かいせい"];
 const KAN_LIST = ["赤身","線香","快晴"];
-const HINT_LIST = ["None.", "🍳","🚬","🌦️","answer: ○○○○○○", "None."];
+const HINT_LIST = [
+  {
+    "type": "bubble",
+    "size": "nano",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "None.",
+          "size": "xs"
+        }
+      ],
+      "paddingAll": "sm",
+      "justifyContent": "center",
+      "alignItems": "center"
+    }
+  },
+  {
+    "type": "bubble",
+    "size": "nano",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "🍳",
+          "size": "xs"
+        }
+      ],
+      "paddingAll": "sm",
+      "justifyContent": "center",
+      "alignItems": "center"
+    }
+  },
+  {
+    "type": "carousel",
+    "contents": [
+      {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🚬",
+              "size": "xs",
+              "wrap": true
+            }
+          ],
+          "paddingAll": "md",
+          "alignItems": "center",
+          "justifyContent": "center"
+        }
+      },
+      {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "空欄が大きいことから、右に90°回転すると近くで見た■■になると推測できる",
+              "size": "xs",
+              "wrap": true
+            }
+          ],
+          "paddingAll": "md",
+          "alignItems": "center",
+          "justifyContent": "center"
+        }
+      }
+    ]
+  },
+  {
+    "type": "bubble",
+    "size": "nano",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "🌦️",
+          "size": "xs"
+        }
+      ],
+      "paddingAll": "sm",
+      "justifyContent": "center",
+      "alignItems": "center"
+    }
+  },
+  {
+    "type": "carousel",
+    "contents": [
+      {
+        "type": "bubble",
+        "size": "kilo",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "3問ともひらがなで解答してきた場合は漢字でも解答してみよう",
+              "size": "xs",
+              "wrap": true
+            }
+          ],
+          "paddingAll": "md",
+          "alignItems": "center",
+          "justifyContent": "center"
+        }
+      },
+      {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "size": "xs",
+              "wrap": true,
+              "text": "状況がつかめない場合は1問解答するごとに水の状態を確認してみよう"
+            }
+          ],
+          "paddingAll": "md",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "size": "kilo"
+      },
+      {
+        "type": "bubble",
+        "size": "kilo",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "答えは6文字の英単語になる",
+              "size": "xs",
+              "wrap": true
+            }
+          ],
+          "paddingAll": "sm",
+          "alignItems": "center",
+          "justifyContent": "center"
+        }
+      }
+    ]
+  },
+  {
+    "type": "bubble",
+    "size": "nano",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "None.",
+          "size": "xs"
+        }
+      ],
+      "paddingAll": "sm",
+      "justifyContent": "center",
+      "alignItems": "center"
+    }
+  }
+];
 
 const CLEAR_MSG = {
   "type": "bubble",

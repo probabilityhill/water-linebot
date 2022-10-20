@@ -164,24 +164,6 @@ const HINT_LIST = [
         }
       }
     ]
-  },
-  {
-    "type": "bubble",
-    "size": "nano",
-    "body": {
-      "type": "box",
-      "layout": "vertical",
-      "contents": [
-        {
-          "type": "text",
-          "text": "None.",
-          "size": "xs"
-        }
-      ],
-      "paddingAll": "sm",
-      "justifyContent": "center",
-      "alignItems": "center"
-    }
   }
 ];
 

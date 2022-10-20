@@ -1,6 +1,6 @@
 function tmp(){
   const USER_ID = "test";
-  let text = "hint";
+  let text = "melted";
   console.log(getReplyMsg(USER_ID, text));
 }
 
@@ -21,11 +21,9 @@ function execute(event){
 
   if(EVENT_TYPE === "follow"){
     const ROW = SHEET.getLastRow()+1;  // 書く行取得
-    SHEET.getRange(ROW,1).setValue(USER_ID);  // A列目にユーザID記入
-    setStatus(USER_ID, 0);  // ステータス0を設定
+    SHEET.getRange(ROW,1,1,6).setValues([[USER_ID,"","","","",0]]);  // ユーザIDとステータス0を設定
     SHEET.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
-    const MSG = getFlexMsg("rule", RULE, getImgUrl("w0"), hasImg=true);
-    sendReplyMessage(REPLY_TOKEN, MSG);
+    sendReplyMessage(REPLY_TOKEN, [getImgMsg(getImgUrl("w0")), getFlexMsg("rule", RULE)]);
   }
   else if(EVENT_TYPE === "message"){
     if(event.message.type === "text"){

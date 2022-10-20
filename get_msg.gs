@@ -1,13 +1,13 @@
 // 応答メッセージを取得
 function getReplyMsg(userId, text){
-  let status = getStatus(userId);  // ステータスを取得
+  let [status, q1, q2, q3] = getStatus(userId, col=6, numRows=1, numCols=4)[0];  // ステータスを取得
 
   if(text == "start"){
     setStatus(userId, 1);  // F列目にステータス1を設定
     return [getImgMsg(getImgUrl("q1"))];
   }
-  else if(text == "water"){
-    return [getImgMsg(getImgUrl(getFilename(userId, Math.min(status, 4))))];
+  else if(text == "water"){  
+    return [getImgMsg(getImgUrl(getFilename(status, [q1,q2,q3])))];
   }
   else if(text == "hint"){
     return [getFlexMsg("hint", HINT_LIST[status])];
@@ -20,26 +20,19 @@ function getReplyMsg(userId, text){
     const isKan = (KAN_LIST[status-1] == text);
 
     if(isHira || isKan){
-      if(isHira){  // ひらがなの場合
-        setLetterType(userId, status, 0);
-      }
-      else {  // 漢字の場合
-        setLetterType(userId, status, 1);
-      }      
+      eval("q"+status+" = "+isHira+" ? 0 : 1");
       status += 1
-      setStatus(userId, status);  // ステータスを更新
+      setStatus(userId, [[status, q1, q2, q3]], col=6, numRows=1, numCols=4);  // ステータスを更新
       if(status === 4){
         // waterと最終問題の画像を返す
-        return [getImgMsg(getImgUrl(getFilename(userId, 4))), getImgMsg(getImgUrl("q4"))];
+        return [getImgMsg(getImgUrl(getFilename(4, [q1,q2,q3]))), getImgMsg(getImgUrl("q4"))];
       }
       return [getImgMsg(getImgUrl("q"+status))];      
     }
   }
   else if(status === 4 && text == "melted"){  // 最終問題正解の場合
-    setLetterType(userId, 4, "#");  // 到達を記録
-    status += 1
-    setStatus(userId, status);  // ステータスを更新
-    return [getTextMsg("melted…溶けた…解けた…!"), getFlexMsg("Congratulations!", CLEAR_MSG), getImgMsg(getImgUrl("clear"))];
+    setStatus(userId, 1, col=10);  // 到達を記録
+    return [getTextMsg("melted…溶けた…解けた…!"), getImgMsg(getImgUrl("clear")), getFlexMsg("Congratulations!", CLEAR_MSG)];
   }
 
   return [getTextMsg("...")];

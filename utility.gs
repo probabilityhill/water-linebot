@@ -4,37 +4,36 @@ function getImgUrl(filename) {
 }
 
 // 画像ファイル名を取得
-function getFilename(userId, status){
-  let str = "";
+function getFilename(status, type){
+  let str = "w";
   if(status === 0 || status === 1){
-    return "w0";
+    str += "0";
   }
-  for(let n = 1; n < status; n++){
-    str += String(getLetterType(userId, n));
+  else{
+    for(let n = 1; n < status; n++){
+      str += String(type[n-1]);
+    }
   }
-  return "w" + str;
+  return str;
 }
 
 // ステータスを設定
-function setStatus(userId, status){
+function setStatus(userId, status, col=6, numRows=null, numCols=null){
   const ROW = SHEET.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
-  SHEET.getRange(ROW,6).setValue(status);  // F列目にstatusを記入
+  if(numRows){
+    SHEET.getRange(ROW,col,numRows,numCols).setValues(status);
+  }
+  else{
+    SHEET.getRange(ROW,col).setValue(status);  // col列目にstatusを記入
+  }
 }
 // ステータスを取得
-function getStatus(userId){
+function getStatus(userId, col=6, numRows=null, numCols=null){
   const ROW = SHEET.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
-  return SHEET.getRange(ROW,6).getValue();  // F列目のstatusを取得  
-}
-
-// 文字種を記録
-function setLetterType(userId, status, type){
-  const ROW = SHEET.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
-  SHEET.getRange(ROW,6+status).setValue(type);  // (F+status)列目にtypeを記入
-}
-// 文字種を取得
-function getLetterType(userId, num){
-  const ROW = SHEET.createTextFinder(userId).findNext().getRow();  // ユーザIDが存在する行
-  return SHEET.getRange(ROW,6+num).getValue();  // (F+num)列目のtypeを取得
+  if(numRows){
+    return SHEET.getRange(ROW,col,numRows,numCols).getValues();  // 二次元配列
+  }
+  return SHEET.getRange(ROW,col).getValue();  // col列目のstatusを取得  
 }
 
 // ユーザ情報取得

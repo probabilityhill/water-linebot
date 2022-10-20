@@ -21,7 +21,7 @@ function getReplyMsg(userId, text){
 
     if(isHira || isKan){
       eval("q"+status+" = "+isHira+" ? 0 : 1;");
-      status += 1
+      status += 1;
       setStatus(userId, [[status, q1, q2, q3]], col=6, numRows=1, numCols=4);  // ステータスを更新
       if(status === 4){
         // waterと最終問題の画像を返す

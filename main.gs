@@ -1,6 +1,6 @@
 function tmp(){
   const USER_ID = "test";
-  let text = "melted";
+  let text = "赤身";
   console.log(getReplyMsg(USER_ID, text));
 }
 

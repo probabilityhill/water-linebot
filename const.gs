@@ -252,7 +252,7 @@ const RULE = {
             "contents": [
               {
                 "type": "text",
-                "text": "・ 答えはひらがなまたは漢字で送信",
+                "text": "・ 3問解くと水と最終問題が送られてくる",
                 "size": "sm",
                 "color": "#404040",
                 "offsetBottom": "xs",
@@ -260,13 +260,13 @@ const RULE = {
               },
               {
                 "type": "text",
-                "text": "・ 3問解くと水と最終問題が送られてくる",
+                "text": "・ 最終問題に正解するとクリア",
                 "size": "sm",
                 "color": "#404040"
               },
               {
                 "type": "text",
-                "text": "・ 最終問題に正解するとクリア",
+                "text": "・ 3問の答えはひらがなまたは漢字で送信",
                 "size": "sm",
                 "color": "#404040",
                 "offsetTop": "xs"

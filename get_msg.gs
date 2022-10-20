@@ -20,7 +20,7 @@ function getReplyMsg(userId, text){
     const isKan = (KAN_LIST[status-1] == text);
 
     if(isHira || isKan){
-      eval("q"+status+" = "+isHira+" ? 0 : 1");
+      eval("q"+status+" = "+isHira+" ? 0 : 1;");
       status += 1
       setStatus(userId, [[status, q1, q2, q3]], col=6, numRows=1, numCols=4);  // ステータスを更新
       if(status === 4){

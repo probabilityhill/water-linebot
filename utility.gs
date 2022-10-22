@@ -1,6 +1,6 @@
 // 画像URLを取得
 function getImgUrl(filename) {
-  return "https://github.com/probabilityhill/water-linebot/blob/main/img/" + filename + ".png?raw=true";
+  return "https://github.com/probabilityhill/water-linebot/blob/main/img/" + filename + ".png?raw=true?20221023";
 }
 
 // 画像ファイル名を取得

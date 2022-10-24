@@ -153,7 +153,7 @@ const HINT_LIST = [
           "contents": [
             {
               "type": "text",
-              "text": "答えは6文字の英単語になる",
+              "text": "答えは6文字の英単語",
               "size": "xs",
               "wrap": true
             }

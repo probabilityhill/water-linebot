@@ -20,9 +20,9 @@ function execute(event){
   const REPLY_TOKEN = event.replyToken;
 
   if(EVENT_TYPE === "follow"){
-    const ROW = SHEET.getLastRow()+1;  // 書く行取得
+    const ROW = SHEET.getLastRow()+1;                                // 書き込む行番号を取得
     SHEET.getRange(ROW,1,1,6).setValues([[USER_ID,"","","","",0]]);  // ユーザIDとステータス0を設定
-    SHEET.getDataRange().removeDuplicates([1]);  // ユーザIDの重複を削除
+    SHEET.getDataRange().removeDuplicates([1]);                      // ユーザIDの重複を削除
     sendReplyMessage(REPLY_TOKEN, [getImgMsg(getImgUrl("w0")), getFlexMsg("rule", RULE)]);
   }
   else if(EVENT_TYPE === "message"){

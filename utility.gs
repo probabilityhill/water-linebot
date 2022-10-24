@@ -37,20 +37,29 @@ function getStatus(userId, col=6, numRows=null, numCols=null){
 }
 
 // ユーザ情報取得
-function getUserName(){
-  const LAST_ROW = SHEET.getLastRow();  // 最終行取得
-  for(let i = 3; i <= LAST_ROW; i++){
-    if(SHEET.getRange(i,2).isBlank()){
-      const USER_ID = SHEET.getRange(i,1).getValue();
-      const URL = 'https://api.line.me/v2/bot/profile/' + USER_ID;
-      const USER_PROFILE = UrlFetchApp.fetch(URL,{
-        'headers': {
-          'Authorization' :  'Bearer ' + ACCESS_TOKEN,
-        }
-      });      
-      SHEET.getRange(i,2).setValue(JSON.parse(USER_PROFILE).displayName);
-      SHEET.getRange(i,3).setValue(JSON.parse(USER_PROFILE).statusMessage);
-      SHEET.getRange(i,4).setValue(JSON.parse(USER_PROFILE).pictureUrl);
+function getUserProfile(){
+  const LAST_ROW = SHEET.getLastRow();                            // 最終行取得
+  const USER_LIST = SHEET.getRange(1,1,LAST_ROW,2).getValues();   // 記入されたデータを取得
+  let userInfoList = [];                                          // 取得した情報を格納する配列
+  for(const USER of USER_LIST){
+    // 情報を取得済みの場合は飛ばす
+    if(USER[1]){
+      continue;
     }
+    const URL = "https://api.line.me/v2/bot/profile/" + USER[0];  // 末尾にユーザーIDを追加
+    const USER_PROFILE = JSON.parse(UrlFetchApp.fetch(URL,{
+      "headers": {
+        "Authorization" :  "Bearer " + ACCESS_TOKEN
+      }
+    }));
+    // 取得した情報（表示名、ステータスメッセージ、プロフィール画像のURL）を配列に追加
+    userInfoList.push([
+      USER_PROFILE.displayName,
+      USER_PROFILE.statusMessage, 
+      USER_PROFILE.pictureUrl
+    ]);
   }
+  const NUM_ROWS = userInfoList.length;  // 書き込む行数
+  // 取得した情報を書き込む
+  SHEET.getRange(LAST_ROW-NUM_ROWS+1,2,NUM_ROWS,3).setValues(userInfoList);
 }

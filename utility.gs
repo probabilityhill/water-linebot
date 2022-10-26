@@ -47,17 +47,27 @@ function getUserProfile(){
       continue;
     }
     const URL = "https://api.line.me/v2/bot/profile/" + USER[0];  // 末尾にユーザーIDを追加
-    const USER_PROFILE = JSON.parse(UrlFetchApp.fetch(URL,{
-      "headers": {
-        "Authorization" :  "Bearer " + ACCESS_TOKEN
-      }
-    }));
-    // 取得した情報（表示名、ステータスメッセージ、プロフィール画像のURL）を配列に追加
-    userInfoList.push([
-      USER_PROFILE.displayName,
-      USER_PROFILE.statusMessage, 
-      USER_PROFILE.pictureUrl
-    ]);
+    try {
+      const USER_PROFILE = JSON.parse(UrlFetchApp.fetch(URL,{
+        "headers": {
+          "Authorization":  "Bearer " + ACCESS_TOKEN
+        }
+      }));
+      // 取得した情報（表示名、ステータスメッセージ、プロフィール画像のURL）を配列に追加
+      userInfoList.push([
+        USER_PROFILE.displayName,
+        USER_PROFILE.statusMessage, 
+        USER_PROFILE.pictureUrl
+      ]);      
+    }    
+    catch {
+      // 取得できなかった場合は"Not found."と記入
+      userInfoList.push([
+        "Not found.",
+        "Not found.", 
+        "Not found."
+      ]);      
+    }
   }
   const NUM_ROWS = userInfoList.length;  // 書き込む行数
   // 取得した情報を書き込む

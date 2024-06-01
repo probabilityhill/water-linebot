@@ -206,7 +206,7 @@ const CLEAR_MSG = {
         "type": "button",
         "action": {
           "type": "uri",
-          "label": "tweet",
+          "label": "post",
           "uri": "https://twitter.com/intent/tweet?text=LINE%E8%AC%8E%E3%80%8Ewater%E3%80%8Fclear!%0A%0Aplay%20%E2%86%92%20https%3A%2F%2Flin.ee%2FPMyXCdw%0A%E2%80%BB%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%B3%E7%89%88%E3%81%AE%E3%81%BF%0A%0A%23water%E8%AC%8E%20%23LINE%E8%AC%8E%20%40TM_TryAngle"
         },
         "height": "sm",
